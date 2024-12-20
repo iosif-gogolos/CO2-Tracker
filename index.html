@@ -1,18 +1,54 @@
 <!DOCTYPE html>
 <html lang="de">
     <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>CO2-Tracker</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2/dist/css/bootstrap.min.css">
+        <style type="text/css">
+            header {
+                background-color: #afa;
+            }
+            header nav ul{
+                text-align: right;
+            }
+            header nav ul li{
+                display: inline;
+            }
+            main nav {
+               width: 40%; 
+               float: left; 
+               background-color: #aaf; 
+            }
+            main div#content {
+                width: 60%; 
+                float: left; 
+                background-color: #aff; 
+            }
+            footer {
+                clear: both ;
+                background-color: #faa;
+            }
+            footer nav ul {text-align: center;}
+            footer nav ul li {display: inline;}
+
+            @media screen and (max-width: 767px){
+                main {display: block; }
+                main nav, main div#content {width:100%;}
+            }
+
+        </style>
     </head>
     <header>
         <nav>
-            <ul>
-                <li>
+            <ul class="text-end">
+                <li class="d-inline">
                     <input type="text" placeholder="Suche">
                 </li>
-                <li>
+                <li class="d-inline">
                     <a href="https://www.weather.gov/wrh/climate">Datenbank</a>
                 </li>
-                <li>
+                <li class="d-inline">
                     <a href="https://www.github.com">Source Code</a>
                 </li>
             </ul>
@@ -24,11 +60,10 @@
                 <li><a href="home.html">Homepage</li>
                 <li><a href="services.html">Unsere Leistungen</a></li>
                 <li><a href="products.html">Unsere Produkte</a></li>
-                <li><a href="prices.html">Unsere Preise</li>
+                <li><a href="vision.html">Unsere Vision</li>
                 <li><a href="about.html">Über uns</li>
             </ul>
         </nav>
-        <section>
             <h1>Willkommen auf CO-2 Tracker</h1>
             <p>
                 CO-2 Tracker ist eine Plattform, die es ermöglicht, 
@@ -42,39 +77,36 @@
                 Darüber hinaus können Sie den CO-2 Ausstoß von 
                 Ländern und Regionen vergleichen und analysieren.
             </p>
-            <h2>Unsere Produkte</h2>
+            <h2>Unsere Vision</h2>
             <p>
-                Wir bieten Ihnen eine Vielzahl von Produkten, 
-                die es Ihnen ermöglichen, den CO-2 Ausstoß Ihres 
-                Unternehmens zu tracken und zu analysieren. 
-                Darüber hinaus bieten wir Ihnen Produkte, mit 
-                denen Sie den CO-2 Ausstoß von Ländern und
-                Regionen vergleichen und analysieren können.
+                Unsere Vision ist es, Unternehmen und Länder dabei 
+                zu unterstützen, ihren CO-2 Ausstoß zu reduzieren und 
+                so einen Beitrag zum Klimaschutz zu leisten.
             </p>
-            <h2>Unsere Preise</h2>
+            <h2>Unsere Metriken</h2>
             <table>
                 <thead>
                     <tr>
-                        <th>Leistung</th>
-                        <th>Einzelpreis</th>
+                        <th>Letzte Aktivitäten</th>
+                        <th>Gramm Co2</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td>CO-2 Tracker Basic</td>
-                        <td>€ 100</td>
+                        <td>12 km Fahrrad</td>
+                        <td>-400 gr Co2</td>
                     </tr>
                     <tr>
-                        <td>CO-2 Tracker Pro</td>
-                        <td>€ 200</td>
+                        <td>20 km elektrisches Auto</td>
+                        <td>-220 gr Co2</td>
                     </tr>
                     <tr>
-                        <td>CO-2 Tracker Premium</td>
-                        <td>€ 300</td>
+                        <td>4 Tage Mit der Bahn zur Arbeit</td>
+                        <td>-120 gr Co2</td>
                     </tr>
                 </tbody>
             </table>
-        </section>
+        </div>
     </main>
 
     <footer>
@@ -85,5 +117,6 @@
             </ul>
         </nav>
     </footer>
+
     
 </html>

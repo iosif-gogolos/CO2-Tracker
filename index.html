@@ -1,75 +1,172 @@
 <!DOCTYPE html>
 <html lang="de">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>CO2-Tracker</title>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css">
-        <style type="text/css">
-            header {
-                background-color: #afa;
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css">
+
+    <title>CO2-Tracker</title>
+    <style type="text/css">
+        body {
+            height: 100%;
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            color: #343a40;
+        }
+        .hero-image {
+            background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), 
+                            url("assets/anthony-maw-zb5ebmpsAGo-unsplash.jpg");
+            height: 50vh; 
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            position: relative;
+        }
+        .hero-text {
+            text-align: center;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+        }
+
+        header {
+            background-color: #28a745;
+            padding: 1rem 0;
+        }
+        header nav ul {
+            text-align: right;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+        header nav ul li {
+            display: inline;
+            margin-left: 1rem;
+        }
+        header nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        header nav ul li input {
+            padding: 0.5rem;
+            border: none;
+            border-radius: 0.25rem;
+        }
+        main {
+            padding: 2rem 1rem;
+        }
+        main nav {
+            width: 20%;
+            float: left;
+            background-color: #e9ecef;
+            padding: 1rem;
+            border-radius: 0.25rem;
+        }
+        main nav ul {
+            list-style: none;
+            padding: 0;
+        }
+        main nav ul li {
+            margin-bottom: 1rem;
+        }
+        main nav ul li a {
+            text-decoration: none;
+            color: #007bff;
+        }
+        main div#content {
+            width: 75%;
+            float: right;
+            padding: 1rem;
+            background-color: #fff;
+            border-radius: 0.25rem;
+            box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+        }
+        footer {
+            clear: both;
+            background-color: #343a40;
+            color: #fff;
+            text-align: center;
+            padding: 1rem 0;
+            margin-top: 2rem;
+        }
+        footer nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        footer nav ul li {
+            display: inline;
+            margin: 0 1rem;
+        }
+        footer nav ul li a {
+            color: #fff;
+            text-decoration: none;
+        }
+        @media screen and (max-width: 767px) {
+            main {
+                display: block;
             }
-            header nav ul{
-                text-align: right;
-            }
-            header nav ul li{
-                display: inline;
-            }
-            main nav {
-               width: 40%; 
-               float: left; 
-               background-color: #aaf; 
-            }
+            main nav,
             main div#content {
-                width: 60%; 
-                float: left; 
-                background-color: #aff; 
+                width: 100%;
+                float: none;
             }
-            footer {
-                clear: both ;
-                background-color: #faa;
-            }
-            footer nav ul {text-align: center;}
-            footer nav ul li {display: inline;}
+        }
 
-            @media screen and (max-width: 767px){
-                main {display: block; }
-                main nav, 
-                main div#content {width:100%;}
-            }
+        @media screen and (max-width: 768px) {
+        .hero-image {
+            height: 30vh; /* Weniger Höhe für kleine Bildschirme */
+        }
+        }
 
-        </style>
-    </head>
+        @media screen and (max-width: 576px) {
+            .hero-image {
+                height: 25vh;
+            }
+        }
+    
+    </style>
+</head>
+<body>
     <header>
-        <nav>
+        <nav class="container">
             <ul class="text-end">
                 <li class="d-inline">
                     <input type="text" placeholder="Suche">
                 </li>
                 <li class="d-inline">
-                    <a href="https://www.weather.gov/wrh/climate">Datenbank</a>
+                    <a href="https://www.weather.gov/wrh/climate">Unsere Mission</a>
                 </li>
                 <li class="d-inline">
-                    <a href="https://www.github.com">Source Code</a>
+                    <a href="https://www.github.com">Übersicht</a>
                 </li>
             </ul>
         </nav>
     </header>
-    <main>
-        <nav>
-            <ul>
-                <li><a href="home.html">Homepage</a></li>
-                <li><a href="services.html">Unsere Leistungen</a></li>
-                <li><a href="products.html">Unsere Produkte</a></li>
-                <li><a href="vision.html">Unsere Vision</a></li>
-                <li><a href="about.html">Über uns</a></li>
-            </ul>
-        </nav>
+    <div class="hero-image">
+        <div class="hero-text">
+            <h1>CO-2 Tracker</h1>
+            <p>Tracken und analysieren Sie den CO-2 Ausstoß von Unternehmen und Ländern</p>
+            <button>Jetzt starten</button>
+        </div>
+    </div>
+    <main class="container">
+        <div id="content">
+
             <h1>Willkommen auf CO-2 Tracker</h1>
             <p>
                 CO-2 Tracker ist eine Plattform, die es ermöglicht, 
                 den CO-2 Ausstoß von Unternehmen und Ländern 
                 zu tracken und zu analysieren.
+            </p>
+            <h2>Unsere Vision</h2>
+            <p>
+                Unsere Vision ist es, Unternehmen und Länder dabei 
+                zu unterstützen, ihren CO-2 Ausstoß zu reduzieren und 
+                so einen Beitrag zum Klimaschutz zu leisten.
             </p>
             <h2>Unsere Leistungen</h2>
             <p>
@@ -78,14 +175,11 @@
                 Darüber hinaus können Sie den CO-2 Ausstoß von 
                 Ländern und Regionen vergleichen und analysieren.
             </p>
-            <h2>Unsere Vision</h2>
+            <h2>Erfolgsgeschichte: ACME GmbH*</h2>
             <p>
-                Unsere Vision ist es, Unternehmen und Länder dabei 
-                zu unterstützen, ihren CO-2 Ausstoß zu reduzieren und 
-                so einen Beitrag zum Klimaschutz zu leisten.
+               Wir helfen Ihnen maßgeschneiderte Lösungen für Ihr unternehmen zu finden
             </p>
-            <h2>Unsere Metriken</h2>
-            <table>
+            <table class="table table-striped">
                 <thead>
                     <tr>
                         <th>Letzte Aktivitäten</th>
@@ -107,9 +201,12 @@
                     </tr>
                 </tbody>
             </table>
+            <p>
+                *So könnte beispielhaft auch die Senkung des wöchentlichen CO-2 Verbrauches für Ihr Unternehmen aussehen
+             </p>
+            <iframe src="graph.html" width="100%" height="600px" frameborder="0"></iframe>
         </div>
     </main>
-
     <footer>
         <nav>
             <ul>
@@ -118,6 +215,5 @@
             </ul>
         </nav>
     </footer>
-
-    
+</body>
 </html>

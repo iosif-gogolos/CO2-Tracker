@@ -1,0 +1,244 @@
+<!doctype html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css">
+
+    <title>Graph Visualizer</title>
+    <style type="text/css">
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            color: #343a40;
+        }
+        header {
+            background-color: #28a745;
+            padding: 1rem 0;
+        }
+        header nav ul {
+            text-align: right;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+        header nav ul li {
+            display: inline;
+            margin-left: 1rem;
+        }
+        header nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        header nav ul li input {
+            padding: 0.5rem;
+            border: none;
+            border-radius: 0.25rem;
+        }
+        main {
+            padding: 2rem 1rem;
+        }
+        main nav {
+            width: 20%;
+            float: left;
+            background-color: #e9ecef;
+            padding: 1rem;
+            border-radius: 0.25rem;
+        }
+        main nav ul {
+            list-style: none;
+            padding: 0;
+        }
+        main nav ul li {
+            margin-bottom: 1rem;
+        }
+        main nav ul li a {
+            text-decoration: none;
+            color: #007bff;
+        }
+        main div#content {
+            width: 75%;
+            float: right;
+            padding: 1rem;
+            background-color: #fff;
+            border-radius: 0.25rem;
+            box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+        }
+        footer {
+            clear: both;
+            background-color: #343a40;
+            color: #fff;
+            text-align: center;
+            padding: 1rem 0;
+            margin-top: 2rem;
+        }
+        footer nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        footer nav ul li {
+            display: inline;
+            margin: 0 1rem;
+        }
+        footer nav ul li a {
+            color: #fff;
+            text-decoration: none;
+        }
+        @media screen and (max-width: 767px) {
+            main {
+                display: block;
+            }
+            main nav,
+            main div#content {
+                width: 100%;
+                float: none;
+            }
+        }
+
+    </style>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+    
+    <script>
+        let allData = [];
+
+        async function fetchData() {
+            const response = await fetch('assets/data.xlsx');
+            const arrayBuffer = await response.arrayBuffer();
+            const data = new Uint8Array(arrayBuffer);
+            const workbook = XLSX.read(data, { type: 'array' });
+            const sheetName = workbook.SheetNames[0];
+            const worksheet = workbook.Sheets[sheetName];
+            const jsonData = XLSX.utils.sheet_to_json(worksheet);
+
+            console.log(jsonData);
+
+            // Filter only relevant columns
+            const relevantData = jsonData.map(item => ({
+                country: item.country,
+                date: item.date,
+                sector: item.sector,
+                'MtCO2 per day': item['MtCO2 per day']
+            }));
+
+            // Initialize filter options
+            const countries = new Set(relevantData.map(item => item.country));
+            const sectors = new Set(relevantData.map(item => item.sector));
+
+            const countryFilter = document.getElementById('countryFilter');
+            const sectorFilter = document.getElementById('sectorFilter');
+
+            // Clear existing options
+            countryFilter.innerHTML = '<option value="all">All</option>';
+            sectorFilter.innerHTML = '<option value="all">All</option>';
+
+            countries.forEach(country => {
+                const option = document.createElement('option');
+                option.value = country;
+                option.textContent = country;
+                countryFilter.appendChild(option);
+            });
+
+            sectors.forEach(sector => {
+                const option = document.createElement('option');
+                option.value = sector;
+                option.textContent = sector;
+                sectorFilter.appendChild(option);
+            });
+
+            allData = relevantData;
+            return relevantData;
+        }
+
+        async function createChart(filteredData) {
+            const data = filteredData || allData;
+            const ctx = document.getElementById('myChart').getContext('2d');
+
+            const labels = [...new Set(data.map(item => item.date))];
+            const datasets = data.reduce((acc, item) => {
+                const sector = item.sector;
+                if (!acc[sector]) {
+                    acc[sector] = {
+                        label: sector,
+                        data: [],
+                        borderColor: getRandomColor(),
+                        fill: false
+                    };
+                }
+                acc[sector].data.push(item['MtCO2 per day']);
+                return acc;
+            }, {});
+
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: Object.values(datasets)
+                },
+                options: {
+                    responsive: true,
+                    title: {
+                        display: true,
+                        text: 'CO2 Emissions'
+                    },
+                    scales: {
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'Millionen Tonnen CO2 pro Tag'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function getRandomColor() {
+            const letters = '0123456789ABCDEF';
+            let color = '#';
+            for (let i = 0; i < 6; i++) {
+                color += letters[Math.floor(Math.random() * 16)];
+            }
+            return color;
+        }
+
+        async function applyFilters() {
+            const countryFilter = document.getElementById('countryFilter').value;
+            const sectorFilter = document.getElementById('sectorFilter').value;
+
+            const filteredData = allData.filter(item => {
+                return (countryFilter === 'all' || item.country === countryFilter) &&
+                       (sectorFilter === 'all' || item.sector === sectorFilter);
+            });
+
+            createChart(filteredData);
+        }
+
+        window.onload = async () => {
+            await fetchData();
+            await createChart();
+            document.getElementById('countryFilter').addEventListener('change', applyFilters);
+            document.getElementById('sectorFilter').addEventListener('change', applyFilters);
+        };
+    </script>
+</head>
+<body>
+    <h1>CO2 Tracker</h1>
+    <div>
+        <label for="countryFilter">Nach Land filtern:</label>
+        <select id="countryFilter">
+            <option value="all">All</option>
+        </select>
+        <label for="sectorFilter">Nach Industrie filtern:</label>
+        <select id="sectorFilter">
+            <option value="all">All</option>
+        </select>
+    </div>
+    <canvas id="myChart" width="400" height="200"></canvas>
+    <div id="companyList">
+        <h2>Mögliche Unternehmen</h2>
+        <ul id="companyListItems"></ul>
+    </div>
+</body>
+</html>

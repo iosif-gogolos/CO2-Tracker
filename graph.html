@@ -97,148 +97,169 @@
 
     </style>
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
-    
-    <script>
-        let allData = [];
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
 
-        async function fetchData() {
-            const response = await fetch('assets/data.xlsx');
-            const arrayBuffer = await response.arrayBuffer();
-            const data = new Uint8Array(arrayBuffer);
-            const workbook = XLSX.read(data, { type: 'array' });
-            const sheetName = workbook.SheetNames[0];
-            const worksheet = workbook.Sheets[sheetName];
-            const jsonData = XLSX.utils.sheet_to_json(worksheet);
+<script>
+    let allData = [];
+    let chartInstance; // Speichert die aktuelle Chart-Instanz
 
-            console.log(jsonData);
+    async function fetchData() {
+        const response = await fetch('assets/data.xlsx');
+        const arrayBuffer = await response.arrayBuffer();
+        const data = new Uint8Array(arrayBuffer);
+        const workbook = XLSX.read(data, { type: 'array' });
+        const sheetName = workbook.SheetNames[0];
+        const worksheet = workbook.Sheets[sheetName];
+        const jsonData = XLSX.utils.sheet_to_json(worksheet);
 
-            // Filter only relevant columns
-            const relevantData = jsonData.map(item => ({
-                country: item.country,
-                date: item.date,
-                sector: item.sector,
-                'MtCO2 per day': item['MtCO2 per day']
-            }));
+        console.log(jsonData);
 
-            // Initialize filter options
-            const countries = new Set(relevantData.map(item => item.country));
-            const sectors = new Set(relevantData.map(item => item.sector));
+        // Filter nur relevante Spalten
+        const relevantData = jsonData.map(item => ({
+            country: item.country,
+            date: item.date,
+            sector: item.sector,
+            'MtCO2 per day': item['MtCO2 per day'],
+            company: item.company // Nehmen wir an, dass in den Daten ein "company"-Feld vorhanden ist
+        }));
 
-            const countryFilter = document.getElementById('countryFilter');
-            const sectorFilter = document.getElementById('sectorFilter');
+        // Initialisiere Filteroptionen
+        const countries = new Set(relevantData.map(item => item.country));
+        const sectors = new Set(relevantData.map(item => item.sector));
 
-            // Clear existing options
-            countryFilter.innerHTML = '<option value="all">All</option>';
-            sectorFilter.innerHTML = '<option value="all">All</option>';
+        const countryFilter = document.getElementById('countryFilter');
+        const sectorFilter = document.getElementById('sectorFilter');
 
-            countries.forEach(country => {
-                const option = document.createElement('option');
-                option.value = country;
-                option.textContent = country;
-                countryFilter.appendChild(option);
-            });
+        // Bestehende Optionen leeren
+        countryFilter.innerHTML = '<option value="all">Alle</option>';
+        sectorFilter.innerHTML = '<option value="all">Alle</option>';
 
-            sectors.forEach(sector => {
-                const option = document.createElement('option');
-                option.value = sector;
-                option.textContent = sector;
-                sectorFilter.appendChild(option);
-            });
+        countries.forEach(country => {
+            const option = document.createElement('option');
+            option.value = country;
+            option.textContent = country; // Hier können Sie Länder ins Deutsche übersetzen
+            countryFilter.appendChild(option);
+        });
 
-            allData = relevantData;
-            return relevantData;
+        sectors.forEach(sector => {
+            const option = document.createElement('option');
+            option.value = sector;
+            option.textContent = sector; // Hier können Sie Sektoren ins Deutsche übersetzen
+            sectorFilter.appendChild(option);
+        });
+
+        allData = relevantData;
+        return relevantData;
+    }
+
+    async function createChart(filteredData) {
+        const data = filteredData || allData;
+        const ctx = document.getElementById('myChart').getContext('2d');
+
+        // Existierende Diagramm-Instanz zerstören, falls vorhanden
+        if (chartInstance) {
+            chartInstance.destroy();
         }
 
-        async function createChart(filteredData) {
-            const data = filteredData || allData;
-            const ctx = document.getElementById('myChart').getContext('2d');
+        const labels = [...new Set(data.map(item => item.date))];
+        const datasets = data.reduce((acc, item) => {
+            const sector = item.sector;
+            if (!acc[sector]) {
+                acc[sector] = {
+                    label: sector,
+                    data: [],
+                    borderColor: getRandomColor(),
+                    fill: false
+                };
+            }
+            acc[sector].data.push(item['MtCO2 per day']);
+            return acc;
+        }, {});
 
-            const labels = [...new Set(data.map(item => item.date))];
-            const datasets = data.reduce((acc, item) => {
-                const sector = item.sector;
-                if (!acc[sector]) {
-                    acc[sector] = {
-                        label: sector,
-                        data: [],
-                        borderColor: getRandomColor(),
-                        fill: false
-                    };
-                }
-                acc[sector].data.push(item['MtCO2 per day']);
-                return acc;
-            }, {});
-
-            new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: labels,
-                    datasets: Object.values(datasets)
+        // Neues Diagramm erstellen
+        chartInstance = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: Object.values(datasets)
+            },
+            options: {
+                responsive: true,
+                title: {
+                    display: true,
+                    text: 'CO2-Emissionen' // Übersetzt
                 },
-                options: {
-                    responsive: true,
-                    title: {
-                        display: true,
-                        text: 'CO2 Emissions'
-                    },
-                    scales: {
-                        y: {
-                            title: {
-                                display: true,
-                                text: 'Millionen Tonnen CO2 pro Tag'
-                            }
+                scales: {
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Millionen Tonnen CO2 pro Tag' // Übersetzt
                         }
                     }
                 }
-            });
-        }
-
-        function getRandomColor() {
-            const letters = '0123456789ABCDEF';
-            let color = '#';
-            for (let i = 0; i < 6; i++) {
-                color += letters[Math.floor(Math.random() * 16)];
             }
-            return color;
+        });
+    }
+
+    function getRandomColor() {
+        const letters = '0123456789ABCDEF';
+        let color = '#';
+        for (let i = 0; i < 6; i++) {
+            color += letters[Math.floor(Math.random() * 16)];
         }
+        return color;
+    }
 
-        async function applyFilters() {
-            const countryFilter = document.getElementById('countryFilter').value;
-            const sectorFilter = document.getElementById('sectorFilter').value;
+    async function applyFilters() {
+        const countryFilter = document.getElementById('countryFilter').value;
+        const sectorFilter = document.getElementById('sectorFilter').value;
 
-            const filteredData = allData.filter(item => {
-                return (countryFilter === 'all' || item.country === countryFilter) &&
-                       (sectorFilter === 'all' || item.sector === sectorFilter);
-            });
+        const filteredData = allData.filter(item => {
+            return (countryFilter === 'all' || item.country === countryFilter) &&
+                   (sectorFilter === 'all' || item.sector === sectorFilter);
+        });
 
-            createChart(filteredData);
-        }
+        createChart(filteredData);
+        updateCompanyList(filteredData); // Unternehmen-Liste aktualisieren
+    }
 
-        window.onload = async () => {
-            await fetchData();
-            await createChart();
-            document.getElementById('countryFilter').addEventListener('change', applyFilters);
-            document.getElementById('sectorFilter').addEventListener('change', applyFilters);
-        };
-    </script>
+    function updateCompanyList(filteredData) {
+        const companyList = document.getElementById('companyListItems');
+        companyList.innerHTML = ''; // Liste leeren
+
+        const companies = [...new Set(filteredData.map(item => item.company))];
+        companies.forEach(company => {
+            const listItem = document.createElement('li');
+            listItem.textContent = company;
+            companyList.appendChild(listItem);
+        });
+    }
+
+    window.onload = async () => {
+        await fetchData();
+        await createChart();
+        document.getElementById('countryFilter').addEventListener('change', applyFilters);
+        document.getElementById('sectorFilter').addEventListener('change', applyFilters);
+    };
+</script>
 </head>
 <body>
-    <h1>CO2 Tracker</h1>
-    <div>
-        <label for="countryFilter">Nach Land filtern:</label>
-        <select id="countryFilter">
-            <option value="all">All</option>
-        </select>
-        <label for="sectorFilter">Nach Industrie filtern:</label>
-        <select id="sectorFilter">
-            <option value="all">All</option>
-        </select>
-    </div>
-    <canvas id="myChart" width="400" height="200"></canvas>
-    <div id="companyList">
-        <h2>Mögliche Unternehmen</h2>
-        <ul id="companyListItems"></ul>
-    </div>
+<h1>CO2-Tracker</h1>
+<div>
+    <label for="countryFilter">Nach Land filtern:</label>
+    <select id="countryFilter">
+        <option value="all">Alle</option>
+    </select>
+    <label for="sectorFilter">Nach Industrie filtern:</label>
+    <select id="sectorFilter">
+        <option value="all">Alle</option>
+    </select>
+</div>
+<canvas id="myChart" width="400" height="200"></canvas>
+<div id="companyList">
+    <h2>Unternehmen</h2>
+    <ul id="companyListItems"></ul>
+</div>
 </body>
 </html>

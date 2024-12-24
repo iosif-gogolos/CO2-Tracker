@@ -264,15 +264,31 @@
 <body>
     <!-- Header -->
     <header>
-        <nav>
-            <ul>
-                <li><img src="assets/logo.svg" alt="CO2-Tracker Logo" style="height: 40px;"></li> <!-- SVG als Bild einfügen -->
-
-                <li><a href="#welcome">UNSERE MISSION</a></li>
-                <li><a href="#tracker">ÜBERSICHT</a></li>
-                <li><a href="#success">ERFOLGSGESCHICHTE</a></li>
-                <li><a href="#contact">KONTAKT</a></li>
-            </ul>
+        <nav class="navbar navbar-expand-lg navbar-dark">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">
+                    <img src="assets/logo.svg" alt="CO2-Tracker Logo" style="height: 40px;">
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#welcome">UNSERE MISSION</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tracker">ÜBERSICHT</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#success">ERFOLGSGESCHICHTE</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#contact">KONTAKT</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </nav>
     </header>
 

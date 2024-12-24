@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css">
+    <title>CO₂-Emissionen der Dax-Konzerne 2022</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@1.2.0/dist/chartjs-plugin-zoom.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        #dax-emissions {
+            padding: 2rem 1rem;
+            background-color: #f8f9fa;
+            text-align: center;
+            height: 100vh;
+            width: 100vw;
+        }
+        #daxChart {
+            width: 100% !important;
+            height: 100% !important;
+        }
+        
+        @media (max-width: 768px) {
+            #dax-emissions {
+                padding: 1rem 0.5rem;
+            }
+        }
+        @media (max-width: 480px) {
+            #dax-emissions {
+                padding: 0.5rem 0.25rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <h2>CO₂-Emissionen der Dax-Konzerne 2022</h2>
+        <p>Quelle: Statista</p>
+        <canvas id="daxChart"></canvas>
+        <p> ¹ Die Emissionen der Deutschen Börse beliefen sich auf etwa 9.000 Tonnen CO₂-Äquivalente.  
+            <br/>² Die Emissionen von Zalando beliefen sich auf etwa 6.000 Tonnen CO₂-Äquivalente.  
+            <br/>³ Die Emissionen der Hannover Rück beliefen sich auf etwa 2.000 Tonnen CO₂-Äquivalente.  
+            <br/>Es wurden jeweils alle Emissionen der Konzerne berücksichtigt, die in der jeweiligen eigenen Wertschöpfungskette entstanden sind ("Scope1" und "Scope2"). 
+            <br>Emissionen von Methan und anderen klimaschädlichen Stoffen wurden auf den Wirkungsgrad von CO₂ umgerechnet und in CO₂-Äquivalenten in die Darstellung einbezogen.  </p>
+    </div>
+
+    <script>
+        async function loadDaxEmissionsData() {
+            const response = await fetch('assets/statistic_id1090030_co₂-emissionen-der-dax-konzerne-2022.xlsx');
+            const arrayBuffer = await response.arrayBuffer();
+            const data = new Uint8Array(arrayBuffer);
+            const workbook = XLSX.read(data, { type: 'array' });
+            const sheetName = workbook.SheetNames[0];
+            const worksheet = workbook.Sheets[sheetName];
+            const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+
+            const labels = jsonData.slice(1).map(row => row[0]); // Unternehmen
+            const values = jsonData.slice(1).map(row => row[1]); // CO₂-Emissionen
+
+            const ctx = document.getElementById('daxChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'CO₂-Emissionen (in Millionen Tonnen)',
+                        data: values,
+                        backgroundColor: 'rgba(40, 167, 69, 0.5)',
+                        borderColor: 'rgba(40, 167, 69, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Millionen Tonnen CO₂'
+                            }
+                        }
+                    },
+                    plugins: {
+                        zoom: {
+                            pan: {
+                                enabled: true,
+                                mode: 'xy'
+                            },
+                            zoom: {
+                                enabled: true,
+                                mode: 'xy'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        window.onload = async () => {
+            await loadDaxEmissionsData();
+        };
+    </script>
+</body>
+</html>

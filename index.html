@@ -6,7 +6,6 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css">
     <title>CO2-Tracker</title>
     <style>
-        /* Allgemeine Stile */
         * {
             margin: 0;
             padding: 0;
@@ -65,14 +64,12 @@
             font-weight: bold;
         }
     
-        /* Responsives Logo */
         header nav ul li img,
         header nav ul li svg {
             max-height: 40px;
             width: auto;
         }
     
-        /* Karussell-Stile */
         #hero-carousel {
             position: relative;
             height: 100%;
@@ -97,7 +94,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.5); /* Schwarzer Filter mit niedrigerer Deckkraft */
+            background-color: rgba(0, 0, 0, 0.5); 
             z-index: 1;
         }
     
@@ -108,7 +105,7 @@
             transform: translate(-50%, -50%);
             color: white;
             text-align: center;
-            z-index: 2; /* Sicherstellen, dass der Text über dem Filter liegt */
+            z-index: 2; 
         }
     
         #hero-text h1 {
@@ -130,7 +127,6 @@
             font-size: 1rem;
         }
     
-        /* Navigation Pfeile */
         .scroll-arrow {
             position: absolute;
             bottom: 20px;
@@ -145,45 +141,39 @@
             color: #28a745;
         }
     
-        /* CO-2 Tracker Stile */
+
+    
         #tracker {
             padding: 2rem 1rem;
             background-color: #f8f9fa;
             text-align: center;
-            height: 100vh; /* Volle Höhe des Bildschirms */
-            width: 100vw; /* Volle Breite des Bildschirms */
+            height: 100vh; 
+            width: 100vw; 
+            width: 90%; 
+            max-width: 1200px;
+            margin: auto; 
         }
-    
-        #tracker h2 {
-            margin-bottom: 1rem;
-            font-size: 2rem;
-            color: #343a40;
-        }
-    
+
         #tracker iframe {
             width: 100%;
-            height: calc(100% - 2rem); /* Volle Höhe des Bildschirms minus Padding */
-            border: none;
-            border-radius: 0.25rem;
-            box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+            height: calc(100% - 2rem);
+    
         }
     
-        /* Stile für die Willkommenssektion */
         #welcome {
             padding: 2rem 1rem;
             background-color: #e9ecef;
             text-align: center;
-            height: 100vh; /* Volle Höhe des Bildschirms */
+            height: 100vh; 
             flex-direction: column;
         }
     
-        /* Stile für das Kontaktformular  */
         #contact {
             padding: 2rem 1rem;
             background-color: #f8f9fa;
             text-align: center;
-            height: 100vh; /* Volle Höhe des Bildschirms */
-            width: 100vw; /* Volle Breite des Bildschirms */
+            height: 100vh;
+            width: 100vw; 
         }
     
         #contact h2 {
@@ -198,7 +188,7 @@
             gap: 1rem;
             width: 90%;
             max-width: 500px;
-            margin: 0 auto; /* Zentriert das Formular */
+            margin: 0 auto;
         }
     
         #contact form input,    
@@ -252,17 +242,16 @@
     
         @media (max-width: 767px) {
             #tracker iframe {
-                height: 100%; /* Volle Höhe des Bildschirms auf kleinen Geräten */
+                height: 100%; 
             }
             header nav ul li img,
             header nav ul li svg {
-                max-height: 30px;
+                max-height: 40px;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Header -->
     <header>
         <nav class="navbar navbar-expand-lg navbar-dark">
             <div class="container-fluid">
@@ -292,7 +281,6 @@
         </nav>
     </header>
 
-    <!-- Hero mit Karussell -->
     <section id="hero">
         <div id="hero-text">
             <h1>CO-2 Tracker</h1>
@@ -309,7 +297,6 @@
         <a href="#welcome" class="scroll-arrow">↓</a>
     </section>
 
-    <!-- Willkommen -->
     <section id="welcome">
         <div>
             <h2>Willkommen</h2>
@@ -318,20 +305,32 @@
     
         <div>
             <h2>Unsere Leistungen</h2>
-            <p>Wir bieten Ihnen die Möglichkeit den CO-2 Ausstroß Ihres Unternehmens zu tracken und zu analysieren. Darüber hinaus können Sie den CO-” Ausstoß von Ländern und Regionen vergleichen und analysieren.</p>
+            <p>Wir bieten Ihnen die Möglichkeit den CO-2 Ausstoß Ihres Unternehmens zu tracken und zu analysieren. Darüber hinaus können Sie den CO-2 Ausstoß von Ländern und Regionen vergleichen und analysieren.</p>
         </div>
+        <a href="#dax-emissions" class="scroll-arrow">↓</a>
+    </section>
+
+    <section id="dax-emissions">
+        <iframe src="dax-emissionen.html" width="80%" height="900px" frameborder="0"></iframe>
         <a href="#tracker" class="scroll-arrow">↓</a>
     </section>
 
-    <!-- CO-2 Tracker -->
     <section id="tracker">
+        <div id="CO2-Tracker">
+            <h2>CO-2 Tracker</h2>
+            <iframe src="graph.html" width="100%" height="100%" frameborder="0"></iframe>
+        </div>
+        <a href="#high-consumption" class="scroll-arrow">↓</a>
+    </section>
+
+    <section id="high-consumption">
         <div>
-            <iframe src="graph.html"></iframe>
+            <h2>Hoher Verbrauch nach Industrie in 2022</h2>
+            <ul id="highConsumptionList"></ul>
         </div>
         <a href="#success" class="scroll-arrow">↓</a>
     </section>
 
-    <!-- Erfolgsgeschichte -->
     <section id="success">
         <div>
             <h2>Erfolgsgeschichte: ACME GmbH</h2>
@@ -362,7 +361,6 @@
         <a href="#contact" class="scroll-arrow">↓</a>
     </section>
 
-    <!-- Kontaktformular -->
     <section id="contact">
         <div>
             <h2>Kontakt</h2>
@@ -377,7 +375,6 @@
         <a href="#hero-carousel" class="scroll-arrow">↑</a>
     </section>
 
-     <!-- Footer -->
      <footer>
         <nav>
             <ul>
@@ -388,6 +385,10 @@
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@1.2.0/dist/chartjs-plugin-zoom.min.js"></script>
+
     <script>
         const sections = document.querySelectorAll('section');
         const options = {
@@ -417,8 +418,6 @@
             confirmationMessage.style.display = 'block';
             form.reset();
         });
-
-
     </script>
 </body>
 </html>

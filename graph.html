@@ -1,8 +1,9 @@
 <!doctype html>
-<html>
+<html lang="de">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css">
-
     <title>Graph Visualizer</title>
     <style>
         body {
@@ -17,22 +18,19 @@
             text-align: center;
             height: 100vh;
             width: 100vw;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
         #myChart {
             width: 100% !important;
-            height: 100% !important;
+            max-width: 1200px;
+            height: 80vh !important;
         }
-        
         @media (max-width: 768px) {
             #graph-container {
                 padding: 1rem 0.5rem;
-            }
-            .zoom-controls {
-                top: 5px;
-                right: 5px;
-            }
-            .zoom-controls button {
-                padding: 5px;
             }
         }
         @media (max-width: 480px) {
@@ -41,9 +39,28 @@
             }
         }
     </style>
-
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+</head>
+<body>
+<div id="graph-container">
+    <h1>CO2-Emissionen per Sektor</h1>
+    <div>
+        <label for="countryFilter">Nach Land filtern:</label>
+        <select id="countryFilter">
+            <option value="all">Alle</option>
+        </select>
+        <label for="sectorFilter">Nach Industrie filtern:</label>
+        <select id="sectorFilter">
+            <option value="all">Alle</option>
+        </select>
+    </div>
+    <canvas id="myChart"></canvas>
+    <div id="companyList">
+        <h2>Unternehmen</h2>
+        <ul id="companyListItems"></ul>
+    </div>
+</div>
 
 <script>
     let allData = [];
@@ -57,7 +74,6 @@
         const sheetName = workbook.SheetNames[0];
         const worksheet = workbook.Sheets[sheetName];
         const jsonData = XLSX.utils.sheet_to_json(worksheet);
-
 
         // Filter nur relevante Spalten
         const relevantData = jsonData.map(item => ({
@@ -130,6 +146,7 @@
             },
             options: {
                 responsive: true,
+                maintainAspectRatio: false,
                 title: {
                     display: true,
                     text: 'CO2-Emissionen' // Übersetzt
@@ -187,25 +204,5 @@
         document.getElementById('sectorFilter').addEventListener('change', applyFilters);
     };
 </script>
-</head>
-<body>
-<div id="graph-container">
-    <h1>CO2-Emissionen per Sektor</h1>
-    <div>
-        <label for="countryFilter">Nach Land filtern:</label>
-        <select id="countryFilter">
-            <option value="all">Alle</option>
-        </select>
-        <label for="sectorFilter">Nach Industrie filtern:</label>
-        <select id="sectorFilter">
-            <option value="all">Alle</option>
-        </select>
-    </div>
-    <canvas id="myChart" width="100%" height="100%"></canvas>
-    <div id="companyList">
-        <h2>Unternehmen</h2>
-        <ul id="companyListItems"></ul>
-    </div>
-</div>
 </body>
 </html>

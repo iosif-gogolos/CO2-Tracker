@@ -28,23 +28,24 @@
             max-width: 1200px;
             height: 80vh !important;
         }
-        @media (max-width: 768px) {
-            #graph-container {
-                padding: 1rem 0.5rem;
-            }
-        }
         @media (max-width: 480px) {
             #graph-container {
                 padding: 0.5rem 0.25rem;
             }
         }
+        @media (max-width: 768px) {
+            #graph-container {
+                padding: 1rem 0.5rem;
+            }
+        }
+        
     </style>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
 </head>
 <body>
 <div id="graph-container">
-    <h2>CO-2 Verbrauch nach Land und nach Unternehmen</h2>
+    <h2>Emissionen nach Land und nach Unternehmen</h2>
     <div>
         <label for="countryFilter">Nach Land filtern:</label>
         <select id="countryFilter">
@@ -57,14 +58,14 @@
     </div>
     <canvas id="myChart"></canvas>
     <div id="companyList">
-        <h2>Unternehmen</h2>
         <ul id="companyListItems"></ul>
     </div>
+    
 </div>
 
 <script>
     let allData = [];
-    let chartInstance; // Speichert die aktuelle Chart-Instanz
+    let chartInstance; 
 
     async function fetchData() {
         const response = await fetch('assets/data.xlsx');
@@ -75,23 +76,20 @@
         const worksheet = workbook.Sheets[sheetName];
         const jsonData = XLSX.utils.sheet_to_json(worksheet);
 
-        // Filter nur relevante Spalten
         const relevantData = jsonData.map(item => ({
             country: item.country,
             date: item.date,
             sector: item.sector,
             'MtCO2 per day': item['MtCO2 per day'],
-            company: item.company // Nehmen wir an, dass in den Daten ein "company"-Feld vorhanden ist
+            company: item.company 
         }));
 
-        // Initialisiere Filteroptionen
         const countries = new Set(relevantData.map(item => item.country));
         const sectors = new Set(relevantData.map(item => item.sector));
 
         const countryFilter = document.getElementById('countryFilter');
         const sectorFilter = document.getElementById('sectorFilter');
 
-        // Bestehende Optionen leeren
         countryFilter.innerHTML = '<option value="all">Alle</option>';
         sectorFilter.innerHTML = '<option value="all">Alle</option>';
 
@@ -105,7 +103,7 @@
         sectors.forEach(sector => {
             const option = document.createElement('option');
             option.value = sector;
-            option.textContent = sector; // Hier können Sie Sektoren ins Deutsche übersetzen
+            option.textContent = sector; 
             sectorFilter.appendChild(option);
         });
 
@@ -117,7 +115,6 @@
         const data = filteredData || allData;
         const ctx = document.getElementById('myChart').getContext('2d');
 
-        // Existierende Diagramm-Instanz zerstören, falls vorhanden
         if (chartInstance) {
             chartInstance.destroy();
         }
@@ -137,7 +134,6 @@
             return acc;
         }, {});
 
-        // Neues Diagramm erstellen
         chartInstance = new Chart(ctx, {
             type: 'line',
             data: {
@@ -149,13 +145,13 @@
                 maintainAspectRatio: false,
                 title: {
                     display: true,
-                    text: 'CO2-Emissionen' // Übersetzt
+                    text: 'CO2-Emissionen' 
                 },
                 scales: {
                     y: {
                         title: {
                             display: true,
-                            text: 'Millionen Tonnen CO2 pro Tag' // Übersetzt
+                            text: 'Millionen Tonnen CO2 pro Tag' 
                         }
                     }
                 }
@@ -182,12 +178,12 @@
         });
 
         createChart(filteredData);
-        updateCompanyList(filteredData); // Unternehmen-Liste aktualisieren
+        updateCompanyList(filteredData); 
     }
 
     function updateCompanyList(filteredData) {
         const companyList = document.getElementById('companyListItems');
-        companyList.innerHTML = ''; // Liste leeren
+        companyList.innerHTML = ''; 
 
         const companies = [...new Set(filteredData.map(item => item.company))];
         companies.forEach(company => {

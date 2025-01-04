@@ -1,4 +1,3 @@
-// Scroll Navigation Highlighting
 const sections = document.querySelectorAll('section');
 const options = { threshold: 0.5 };
 

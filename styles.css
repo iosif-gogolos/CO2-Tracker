@@ -261,6 +261,13 @@ footer {
     margin-top: 2rem;
 }
 
+footer {
+    text-align: center;
+    padding: 1rem;
+    background-color: #343a40;
+    color: white;
+    margin-top: 2rem;
+}
 footer nav ul {
     list-style: none;
     padding: 0;
@@ -276,7 +283,6 @@ footer nav ul li a {
     color: #fff;
     text-decoration: none;
 }
-
 @media (max-width: 767px) {
     #tracker iframe {
         height: 100%;  

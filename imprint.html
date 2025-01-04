@@ -55,10 +55,28 @@
             color: white;
             margin-top: 2rem;
         }
+        footer nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        footer nav ul li {
+            display: inline;
+            margin: 0 1rem;
+        }
+
+        footer nav ul li a {
+            color: #fff;
+            text-decoration: none;
+        }
     </style>
 </head>
 <body>
     <header>
+        <a href="index.html" style="display: flex; align-items: center; text-decoration: none; color: white;" title="back home">
+            <img src="https://fonts.gstatic.com/s/i/materialicons/arrow_back/v6/24px.svg" alt="Back Arrow" style="height: 40px; margin-right: 10px; filter: invert(1);">
+        </a>
         <h1>Impressum</h1>
     </header>
     <main>
@@ -101,7 +119,13 @@
         <p>Das Logo wurde erstellt auf Basis von von <a href="https://www.flaticon.com" target="_blank">Flaticon</a>.</p>
     </main>
     <footer>
-        <p>&copy; 2024 CO2-Tracker. Alle Rechte vorbehalten.</p>
+        <nav>
+            <ul>
+                <li><a href="privacy.html">Datenschutz</a></li>
+                <li><a href="imprint.html">Impressum</a></li>
+                <p>&copy; 2025 CO2-Tracker. Alle Rechte vorbehalten.</p>
+            </ul>
+        </nav>
     </footer>
 </body>
 </html>

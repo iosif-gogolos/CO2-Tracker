@@ -2,11 +2,11 @@
 
 ## Überblick
 
-Dies ist eine Fallstudie für den Kurs IPWA01-01 an der IU Internationalen Hochschule. Das Projekt zielt darauf ab, eine responsive Webseite zu entwickeln, die den CO2-Fußabdruck von Unternehmen und Ländern verfolgt.
+Dies ist ein Ergebnis der Bearbeitung der Fallstudie für den Kurs IPWA01-01 an der IU Internationalen Hochschule. Das Projekt zielt darauf ab, eine responsive Webseite zu entwickeln, die den CO2-Fußabdruck von Unternehmen und Ländern verfolgt.
 
 ## Zielsetzung
 
-Das Hauptziel dieses Projekts ist es, den Besuchern zu helfen, einen Verständnis über den CO2-Fußabdruck von Unternehmen zu entwickeln und Implikationen über dessen Senkung herzuleiten. Die Webseite bietet Funktionen zur dynamischen Darstellung und Analyse von Daten, die den CO2-Ausstoß betreffen.
+Das Hauptziel dieses Projekts ist es, den Besuchern zu helfen, ein Verständnis über den CO2-Fußabdruck von Unternehmen zu entwickeln und Implikationen über dessen Senkung herzuleiten. Die Webseite bietet Funktionen zur dynamischen Darstellung und Analyse von Daten, die den CO2-Ausstoß betreffen.
 
 ## Funktionen
 
@@ -20,6 +20,8 @@ Das Hauptziel dieses Projekts ist es, den Besuchern zu helfen, einen Verständni
 
 ## Installation und Ausführung
 
+### ![Windows](https://img.icons8.com/color/48/000000/windows-10.png) Windows
+
 1. **Repository klonen**:
     ```bash
     git clone https://github.com/username/CO2-Tracker.git
@@ -30,14 +32,43 @@ Das Hauptziel dieses Projekts ist es, den Besuchern zu helfen, einen Verständni
     cd CO2-Tracker
     ```
 
-3. **Abhängigkeiten installieren**:
+3. **`index.html` im Standardbrowser öffnen**:
     ```bash
-    npm install
+    start index.html
     ```
 
-4. **Anwendung starten**:
+### ![Mac](https://img.icons8.com/color/48/000000/mac-logo.png) Mac
+
+1. **Repository klonen**:
     ```bash
-    npm start
+    git clone https://github.com/username/CO2-Tracker.git
+    ```
+
+2. **In das Projektverzeichnis wechseln**:
+    ```bash
+    cd CO2-Tracker
+    ```
+
+3. **`index.html` im Standardbrowser öffnen**:
+    ```bash
+    open index.html
+    ```
+
+### ![Linux](https://img.icons8.com/color/48/000000/linux.png) Linux
+
+1. **Repository klonen**:
+    ```bash
+    git clone https://github.com/username/CO2-Tracker.git
+    ```
+
+2. **In das Projektverzeichnis wechseln**:
+    ```bash
+    cd CO2-Tracker
+    ```
+
+3. **`index.html` im Standardbrowser öffnen**:
+    ```bash
+    xdg-open index.html
     ```
 
 ## Lizenz

@@ -283,7 +283,35 @@ footer nav ul li a {
     color: #fff;
     text-decoration: none;
 }
-@media (max-width: 767px) {
+
+@media screen and (max-width: 767px) {
+    nav li{
+        display: inline;
+    }
+    
+    ul {
+        text-align: center;
+    }
+
+    header nav ul li img,
+    header nav ul li svg {
+        max-height: 40px;
+    }
+    .welcome-container {
+    flex-direction: column;
+    text-align: center;
+    }
+
+    .welcome-image img {
+        max-width: 100%;
+    }
+
+    .welcome-text {
+        text-align: center;
+    }
+}
+
+@media screen and (min-width: 768px) and (max-width: 1023px) {
     #tracker iframe {
         height: 100%;  
     }
@@ -302,5 +330,21 @@ footer nav ul li a {
 
     .welcome-text {
         text-align: center;
+    }
+}
+
+@media screen and (min-width: 1024px) {
+    header nav ul li img,
+    header nav ul li svg {
+        max-height: 50px;
+    }
+    .welcome-container {
+        flex-direction: row;
+    }
+    .welcome-image img {
+        max-width: 500px;
+    }
+    .welcome-text {
+        flex: 1;
     }
 }
